@@ -1,0 +1,227 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>垂坤</title>
+<meta charset="UTF-8"/>
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="css/main.css" />
+
+<style>
+
+
+</style>
+
+<script>
+$(document).ready(function()
+{	
+	getuserinfo();
+	getInfo();
+	cschangeinformation.style.display = "none";
+	cschangepassword.style.display = "none";
+	csaccountmanagedataTable.style.display = "block";
+	loginoutarea.style.display = "none";
+	nosession.style.display = "none";
+	message1.style.display ="none";
+	logout.style.display ="none";
+	register.style.display ="none";
+	login.style.display ="none";
+});
+
+function getInfo(){
+	$.ajax({
+		url:"/projectv2/customer/php/showcsinform1.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{				
+				$("#csaccountmanagetable1").append("<p style='font-size: 20px;'>" + "名字" + " : "+data1[0].CName + "</p>"); 				 
+				$("#csaccountmanagetable1").append("<p style='font-size: 20px;'>" + "生日" + " : "+data1[0].DOB + "</p>");
+				$("#csaccountmanagetable1").append("<p style='font-size: 20px;'>" + "地址" + " : "+data1[0].Address + "</p>");
+				$("#csaccountmanagetable1").append("<p style='font-size: 20px;'>" + "Email" + " : "+data1[0].Email + "</p>"); 				 
+				$("#csaccountmanagetable1").append("<p style='font-size: 20px;'>" + "電話" + " : "+data1[0].Tel + "</p>");
+				$("#csaccountmanagetable1").append("<p style='font-size: 20px;'>" + "申請日期" + " : "+data1[0].DateCreated + "</p>");
+		},	
+		
+		error: function(data1) {
+			nosession.style.display ="block";
+			message.style.display ="none";
+			message1.style.display ="block";
+		}
+	});
+}
+
+function getuserinfo(){
+	$.ajax({
+		url:"/projectv2/customer/php/showcsinform1.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{	
+			if(data1!="nocid"){
+				$("#customername").append(data1[0].CName);
+				logout.style.display ="block";
+				login.style.display ="block";
+				register.style.display ="none";
+			}else{
+				logout.style.display ="none";
+				register.style.display ="block";
+				login.style.display ="none";
+				window.location.replace("/projectv2/customer/html/customerlogin.html");
+			}
+		},			
+		error: function(data1) {
+			logout.style.display ="none";
+			register.style.display ="block";
+			login.style.display ="none";
+			window.location.replace("/projectv2/customer/html/customerlogin.html");
+		}
+	});
+
+}
+
+function validate() {
+              var ps1 = document.getElementById("nps").value;
+              var ps2 = document.getElementById("nnps").value;
+              if(ps1 == ps2) {
+                  document.getElementById("checkpass").innerHTML="<style>#nnps{border-color: #00EB00; border-width: 3px;}</style>";
+                  document.getElementById("submit1").disabled = false;
+              }
+              else {
+                  document.getElementById("checkpass").innerHTML="<style>#nnps{border-color: #FF3B3B	;border-width: 3px;}</style>";
+                document.getElementById("submit1").disabled = true;
+              }
+}
+
+function changeinform(){
+	cschangeinformation.style.display = "block";
+	csaccountmanagedataTable.style.display = "none";
+	cschangepassword.style.display = "none";
+	nosession.style.display = "none";
+	message1.style.display ="none";
+}
+
+function changepassword(){
+	cschangeinformation.style.display = "none";
+	csaccountmanagedataTable.style.display = "none";
+	cschangepassword.style.display = "block";
+	nosession.style.display = "none";
+	message1.style.display ="none";
+}
+
+function cancelchange(){
+	cschangeinformation.style.display = "none";
+	csaccountmanagedataTable.style.display = "block";
+	cschangepassword.style.display = "none";
+	nosession.style.display = "none";
+	message1.style.display ="none";
+}
+
+function mousein(){
+	loginoutarea.style.display = "block";
+}
+
+function mouseout(){
+	loginoutarea.style.display = "none";
+}
+
+function mouseinl(){
+	loginoutarea.style.display = "block";
+}
+</script>
+<body>
+	<div id="centertext">
+	<div id="topmenu" onmouseover="mouseout()">	
+		<a href="/projectv2/customer/html/csmainpage" title="主頁"><b>垂坤</b></a>
+	</div>
+		
+	<div id="function">
+			<a href="/projectv2/customer/html/csmainpage.html" class="material-icons" title="主頁" style="text-decoration: none; color: black;" onmouseover="mouseout()">home</a>
+			<a href="/projectv2/customer/html/csaccountmanage.html" class="material-icons fa-2x" title="登入" style="text-decoration: none; color: black;" onmouseover="mousein()">person</a>		
+			<a href="/projectv2/customer/html/csmainpage.html" class="material-icons fa-2x" title="購物車" style="text-decoration: none; color: black;" onmouseover="mouseout()">shopping_cart</a>
+			<a href="/projectv2/customer/html/csorderiteminfo.html" class="material-icons fa-2x" title="物品狀態" style="text-decoration: none; color: black;" onmouseover="mouseout()">local_shipping</a>
+			<a href="/projectv2/customer/html/csorderhistory.html" class="material-icons fa-2x" title="歷史" style="text-decoration: none; color: black;" onmouseover="mouseout()">history</a>			
+	</div>
+
+		<div id="loginoutarea" onmouseover="mouseinl()" onmouseout="mouseout()">
+			<center id="login"><p style="color: red;">歡迎，<a id="customername" style="color: red;"/></p></center>
+			<form action="/projectv2/customer/php/clogoff.php" method="post" id="logout">
+			<center><input type='submit' name='submit' value='登出' onclick="/projectv2/customer/php/clogoff.php"/></center>
+			</form>
+			<center id="register">
+			<p style="color: red;">您還未登入</p>
+			<button><a href="/projectv2/customer/html/customerlogin.html">登入</a></button>
+			<button><a href="/projectv2/customer/html/customer register.html">注冊</a></button></center>
+		</div>		
+		
+	<div id="csaccountmanagecontent">
+		<div id="inner">
+		<div id="csaccountmanagedataTable">
+			<pre id="json">
+				
+				<table id="csaccountmanagetable1">
+					<p id="nosession">您還未登入</p>
+				</table>
+				
+			</pre>
+		
+		<div id="message1">
+			<button><a href="/projectv2/customer/html/customerlogin.html">登入</a></button>
+			<button><a href="/projectv2/customer/html/customer register.html">注冊</a></button>
+		</div>
+			
+		<div id="message">
+		<input type='button' name='changeinform' id="submit" value='更改資料' onclick="changeinform()"/>
+		<input type='button' name='changepassword' id="cancel" value='更改密碼' onclick="changepassword()"/>
+		</div>
+		</div>
+		
+		<form action="/projectv2/customer/php/cchangeinform.php" method="post">
+			<div id="cschangeinformation">
+				<p>地址 : <input type="text" id="address" name="address" value="noadd"/></p>
+				<!-- <p>Email : <input type="text" id="email" name="email"/></p> -->
+				<p>電話 : <input type="text" id="tel" name="tel" value="notel"/></p>
+				
+				<p><input type='submit' name='submit' id="submit" value='發送'/>
+				<input type='button' value='取消' id="cancel" onclick="cancelchange()"/></p>
+			</div>
+		</form>
+		
+		<form action="/projectv2/customer/php/cchangepass.php" method="post">
+		
+			<div id="cschangepassword">
+			
+				<div id="password-left">
+					<p>現在的密碼 : </p>
+					<p><input type="password" id="ops" name="ops"/></p>
+				</div>
+					
+				<div id="password-right">
+					<p>新的密碼 : </p>
+					<p><input type="password" id="nps" name="nps"/></p>
+					<p>確認密碼 : </p>
+					<p><input type="password" name="nnps" id="nnps" onkeyup="validate()"/></p>
+						<span id="checkpass"></span>
+				</div>
+				
+				<p><input type='submit' name='submit1' id="submit" value='發送'/>
+				<input type='button' value='取消' id="cancel" onclick="cancelchange()"/></p>		
+				
+			</div>
+		</form>
+	
+		</div>							
+	</div>
+							
+		<div id="footer">
+			<p><small><b>垂坤食品有限公司 © 2014 All Rights Reserved. <br> 
+			苗栗縣苑裡鎮大同路88號 <br>
+			客服專線：037-867840　　傳真：037-866407</b></small></p>
+		</div>
+	</div>
+</body>
+</html>

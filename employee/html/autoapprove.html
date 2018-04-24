@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	
+<style>
+#top{
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 10000;
+    background: #364050 url("assets/css/images/bg01.png");
+	border: solid 1px;
+    padding: 3px;
+    font-size: 16px;
+}
+
+#logout{
+	margin-left: 150px;
+	position: relative;
+	margin-top: 1%;
+}
+
+#dataTable{
+	border-style: solid;
+	border-width: 1px;
+	height: 330px;	
+	 overflow: scroll;
+}
+
+td{
+	text-align: center;
+}
+
+</style>
+		<title>訂單自動批准</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function()
+{	
+	getInfo();
+	getUSerInfo();
+	<!--賬號管理分頁-->
+	accountadit.style.display = "none";
+	passwordchange.style.display = "none";
+	<!--/賬號管理分頁-->	
+	
+	<!--/倉庫管理分頁-->
+	itemadd.style.display = "none";
+	itemsales.style.display = "none";
+	newitem.style.display = "none";
+	<!--/倉庫管理分頁-->
+	
+		
+	<!--訂單管理分頁-->
+	<!-- orderadd.style.display = "none"; -->
+	autoapprove.style.display = "none";
+	<!--/訂單管理分頁-->
+	
+	<!--/管理員分頁-->
+	storagemanage.style.display = "none";
+	employeemanage.style.display = "none";
+	ordermanage.style.display = "none";
+	analysismanage.style.display = "none";
+	suppliermanage.style.display = "none";
+	<!--/管理員分頁-->
+});
+
+<!--get user information-->
+function getUSerInfo(){
+	$.ajax({
+		url:"/projectv2/employee/php/showeinform.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{								
+			$("#employee").append(""+data1[0].EName);
+		},	
+		
+		error: function() {
+			//alert("ERROR!!!");
+			document.location.replace("/projectv2/employee/php/elogoff.php");
+		}
+	});
+
+}
+
+function getInfo(){
+	$.ajax({
+		url:"/projectv2/employee/php/showautoapproveorder.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{ 
+			document.getElementById('table1').innerHTML=""
+			$("#table1").append("<tr><th style='font-size: 18px;color: red;'>" + "訂單編號" + "</th>"+
+			"<th style='font-size: 18px;color: red;'>" + "運輸地址</th>"+
+			"<th style='font-size: 18px;color: red;'>運送方式</th>"+
+			"<th style='font-size: 18px;color: red;'>" + "訂單流程狀態"+"</th>"+
+			"<th style='font-size: 18px;color: red;'>" + "詳情" + "</th></tr>");	
+			var NumOfJData = data1.length; 
+			for (var i=0;i<NumOfJData;i++) 
+			{
+				$("#table1").append("<tr>"); 
+				$("#table1").append("<td style='font-size: 18px;'>" + ""+data1[i].OID + "</td>");				 
+				$("#table1").append("<td style='font-size: 18px;'>" + ""+data1[i].Location + "</td>"); 
+				$("#table1").append("<td style='font-size: 18px;'>" + ""+data1[i]['DeliveryType'] + "</td>");
+				$("#table1").append("<td style='font-size: 18px;'>" + ""+data1[i].Statue + "</td>"); 
+				
+				var t=   '"'+data1[i]['OID']+'"';
+				$("#table1").append("<td style='font-size: 18px;'><a href='#' onclick='tableshow("+t+")'>物品</a></td>"); 
+				
+				$("#table1").append("</tr>"); 
+			}
+			
+		},
+		
+	error: function(data1) {
+		//alert("ERROR!!!");
+		//console.log(data1);
+	}
+	}); 
+
+}
+function cancelpressed(){
+	//console.log("aaa");
+	document.getElementById('table1').innerHTML="";
+	getInfo();
+}
+function tableshow(x){
+	var Parent = document.getElementById('table1');
+	while(Parent.hasChildNodes())
+	{
+	   Parent.removeChild(Parent.firstChild);
+	}
+	$.ajax({
+		type: 'POST',
+		url: "/projectv2/employee/php/emorderlistdetail.php",
+		data: {what:"orderdetail",oid:x},
+		async: true,
+		dataType: 'json',
+		success: function (data1) {
+			//console.log("startttt");
+			var NumOfJData = data1.length;	
+			//console.log(NumOfJData);	
+			//alert(data1[0][0]);
+			//console.log(data1);
+			$("#table1").append("<tr><th style='font-size: 18px;color: red;'>" + "訂單編號" + "</th>"+
+			"<th style='font-size: 18px;color: red;'>" + "運輸地址" + "</th>"+
+			"<th style='font-size: 18px;color: red;'>" + "訂單狀態" + "</th>"+
+			"<th style='font-size: 18px;color: red;'>" + "運送方式" + "</th></tr>");
+			var stat="";
+			for (var i=0;i<NumOfJData;i++)
+			{
+				$("#table1").append("<tr><td style='font-size: 18px;'>" + ""+data1[i].OID + "</td>"+
+				"<td style='font-size: 18px;'>" + ""+data1[i].Location + "</td>"+
+				"<td style='font-size: 18px;'>" + ""+data1[i].Statue + "</td>"+
+				"<td style='font-size: 18px;'>" + ""+data1[i]['DeliveryType'] + "</td>&nbsp;");		
+				stat=data1[i].Statue;	
+				//console.log(stat);				
+			}
+			
+			$.ajax({
+			type: 'POST',
+			url: "/projectv2/employee/php/emorderlistdetail.php",
+			data: {what:"oiddetail",oid:x},
+			async: true,
+			dataType: 'json',
+			success: function (data1) {
+			var NumOfJData = data1.length;
+				//console.log(data1);
+				$("#table1").append("<tr><th style='font-size: 18px;color: red;'>" + "商品" + "</th></tr><tr>"+
+				"<th style='font-size: 18px;color: red;'>" + "訂單物品編號" + "</th>"+
+				"<th style='font-size: 18px;color: red;'>" + "商品編碼" + "</th>"+
+				"<th style='font-size: 18px;color: red;'>" + "商品名稱" + "</th>"+
+				"<th style='font-size: 18px;color: red;'>" + "數量" + "</th>"+
+				"<th style='font-size: 18px;color: red;'>" + "單價" + "</th></tr>");				 
+				var sum=0;	
+				for (var i=0;i<NumOfJData;i++)
+				{				
+					$("#table1").append("<tr><td style='font-size: 18px;'>" + ""+data1[i].OIDD + "</td>"+
+					"<td style='font-size: 18px;'>" + ""+data1[i].ICode + "</td>"+
+					"<td style='font-size: 18px;'>" + ""+data1[i].IName + "</td>"+
+					"<td style='font-size: 18px;'>" + ""+data1[i].Quantity + "</td>"+
+					"<td style='font-size: 18px;'>" + ""+data1[i].Price + "</td></tr>");				 
+					 sum=sum+(parseInt(data1[i].Price)*parseInt(data1[i].Quantity));
+				}
+				
+					
+					var s = '"'+'approve'+'"';var z = '"'+'reject'+'"';
+					var t=   '"'+x+'"';
+					//console.log(stat);
+					if((stat=="sapprove")||(stat=="approved")||(stat=="rejected")){
+						$("#table1").append("<tr><td style='font-size: 18px;'></td>"+
+						"<td style='font-size: 18px;'></td>"+
+						"<td><a href='#' onclick='cancelpressed()'>返回</a></td>"+
+						"<td></td>"+
+						"<td>總價NT "+sum+"</td></tr>");
+					}else{
+						
+						$("#table1").append("<tr><td style='font-size: 18px;'><a href='#' onclick='updateorder("+s+","+t+")'>Approve</a></td>"+
+						"<td style='font-size: 18px;'><a href='#' onclick='updateorder("+z+","+t+")'>Reject</a></td>"+
+						"<td><a href='#' onclick='cancelpressed()'>取消</a></td>"+
+						"<td>派給：<select name='eidasssign' id='eidasssign'></select></td>"+
+						"<td>總價NT "+sum+"</td></tr>");
+					}
+					$.ajax({
+						type: 'POST',
+						url: "/projectv2/employee/php/getemployeeassign.php",
+						async: true,
+						dataType: 'json',
+						success: function (data1) {
+						var NumOfJData = data1.length;
+							//console.log(data1);
+							$('#eidasssign').find('option').remove();
+							$('#eidasssign').append("<option>請選擇：</option>");
+							var NumOfJData = data1.length;
+							for(var i=0;i<NumOfJData;i++){
+							
+								$('#eidasssign').append(
+									$('<option></option>').val(data1[i].EID).html(data1[i].EName)
+								);
+							}
+							document.getElementById('eidasssign').addEventListener("change", function(e){
+								eisassign=this.value;
+								console.log(eisassign);
+							});
+						},error:function(data1){
+							console.log(data1);
+						}
+					});
+					
+				}	
+			});
+		}	
+	});
+}
+<!--sidebar-->
+function accountshow(){
+	accountadit.style.display = "block";
+	passwordchange.style.display = "block";
+}
+
+function accounthid(){
+	accountadit.style.display = "none";
+	passwordchange.style.display = "none";
+}
+
+function storageshow(){
+	itemadd.style.display = "block";
+	itemsales.style.display = "block";
+	newitem.style.display = "block";
+}
+
+function storagehid(){
+	itemadd.style.display = "none";
+	itemsales.style.display = "none";
+	newitem.style.display = "none";
+}
+
+function ordershow(){
+	<!-- orderadd.style.display = "block"; -->
+	autoapprove.style.display = "block";
+}
+
+function orderhid(){
+	<!-- orderadd.style.display = "none"; -->
+	autoapprove.style.display = "none";
+}
+
+function employeeshow(){
+	storagemanage.style.display = "block";
+	employeemanage.style.display = "block";
+	ordermanage.style.display = "block";
+	analysismanage.style.display = "block";
+	suppliermanage.style.display = "block";
+}
+
+function employeehid(){
+	storagemanage.style.display = "none";
+	employeemanage.style.display = "none";
+	ordermanage.style.display = "none";
+	analysismanage.style.display = "none";
+	suppliermanage.style.display = "none";
+}
+<!--/sidebar-->
+</script>
+
+	</head>
+	<body>
+	
+	<div id="top">
+	<form action="/projectv2/employee/php/elogoff.php" method="post" id="logout">
+		<input type='submit' name='submit' value='登出' onclick="/projectv2/employee/php/elogoff.php"/>	
+	</form>
+	<p style="color: red; margin-top: -2%;">歡迎回來，<span id="employee" style="color: red;"/></p>
+					
+	</div>
+
+	<!-- Content -->
+		<div id="content">
+			<div class="inner">
+
+				<!-- Post -->
+				<article class="box post post-excerpt">
+					<header>
+						<h2>訂單自動批准</h2>
+					</header>
+				</article>	
+				
+				<div id="dataTable">
+					<pre id="json">
+						<table id="table1">
+						</table>
+					</pre>
+				</div>
+			
+			</div>
+		</div>
+	
+		<!-- Sidebar -->
+			<div id="sidebar" style="position:fixed">
+				</body>
+				
+				<!-- Nav -->
+					<nav id="nav">
+							
+							<ul> 
+								<li onmouseover="accountshow()" onmouseout="accounthid()"><a href="accountmanage.html">賬號管理</a>
+									<a id="accountadit" href="editinform.html" style="font-size: 12px; margin-left: 10px;">編輯信息</a>
+									<a id="passwordchange" href="changepassword.html" style="font-size: 12px; margin-left: 10px;">更改密碼</a>
+								</li>
+								
+								<li onmouseover="storageshow()" onmouseout="storagehid()"><a href="storageinform.html">倉庫資料</a>
+									<a id="itemadd" href="additem.html" style="font-size: 12px; margin-left: 10px;">進貨</a>
+									<a id="itemsales" href="salesitem.html" style="font-size: 12px; margin-left: 10px;">售出</a>
+									<a id="newitem" href="eaddnewitem.html" style="font-size: 12px; margin-left: 10px;">新增商品</a>
+								</li>						
+								
+								<li onmouseover="ordershow()" onmouseout="orderhid()"><a href="order.html">訂單</a>
+									<!--<a id="orderadd" href="addorder.html" style="font-size: 12px; margin-left: 10px;">新增訂單</a>-->
+									<a id="autoapprove" href="autoapprove.html" style="font-size: 12px; margin-left: 10px;">自動通過</a>
+								</li>
+								
+								<li onmouseover="employeeshow()" onmouseout="employeehid()"><a href="employeemanage.html">系統管理員</a>
+									<a id="storagemanage" href="adminstorage.html" style="font-size: 12px; margin-left: 10px;">倉庫</a>
+									<a id="suppliermanage" href="supplier.html" style="font-size: 12px; margin-left: 10px;">供應商</a>
+									<a id="employeemanage" href="employeeconf.html" style="font-size: 12px; margin-left: 10px;">員工</a>
+									<a id="ordermanage" href="autoapprovesetting.html" style="font-size: 12px; margin-left: 10px;">訂單設定</a>
+									<a id="analysismanage" href="analysis.html" style="font-size: 12px; margin-left: 10px;">數據分析</a>
+								</li>
+							</ul>
+					</nav>
+					
+		</div>
+			
+		<!-- Scripts -->
+			<!--<script src="assets/js/jquery.min.js"></script> -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

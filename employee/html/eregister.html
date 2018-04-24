@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<title>Employee Register</title>
+<meta charset="UTF-8">
+
+<style>
+#body{
+	background-color: #FFF0D4; 
+	height:auto; 
+	width:500px; 
+	margin:0px auto;
+	border-style: outset;
+	border-width: 3px;
+	
+}
+
+forget{
+	text-align:right;
+}
+
+input{
+	border-style: outset;
+}
+
+</style>
+
+<script>
+function validate() {
+              var ps1 = document.getElementById("ps1").value;
+              var ps2 = document.getElementById("ps2").value;
+              if(ps1 == ps2) {
+                  document.getElementById("checkpass").innerHTML="<style>#ps2{border-color: #00EB00; border-width: 3px;}</style>";
+                  document.getElementById("submit").disabled = false;
+              }
+              else {
+                  document.getElementById("checkpass").innerHTML="<style>#ps2{border-color: #FF3B3B	;border-width: 3px;}</style>";
+                document.getElementById("submit").disabled = true;
+              }
+          }
+</script>
+<body>
+
+	<div id="body">
+<center><form action="/projectv2/employee/php/eregister.php" method="post">
+
+	<h2>Employee Info</h2>
+	<p>email: <input type="text" name="email" id="email" size="15" /></p>
+	<p>ename: <input type="text" name="ename" id="ename" size="15" /></p>
+	<p>性別 :<input type="radio" name="gender" value="male">男
+	<input type="radio" name="gender" value="female">女</p>
+	<p>tel: <input type="number" name="tel" id="tel" size="15" /></p>
+	<p>address: <input type="text" name="address" id="address" size="15" /></p>
+	<p>dob: <input type="date" name="dob" id="dob" size="15" /></p>
+	<p>agreement: <input type="number" name="agreement" id="agreement" size="15" /></p>
+	
+	<input type='submit' name='submit' id='submit' value='發送'/>
+	<br>
+	<br>
+	
+</form></center>
+	<center><a href="" class="forget">Forget Password？</a></center>
+  </div>
+
+</body>
+</html>

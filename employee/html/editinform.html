@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	
+<style>
+#top{
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 10000;
+    background: #364050 url("assets/css/images/bg01.png");
+	border: solid 1px;
+    padding: 3px;
+    font-size: 16px;
+}
+
+#logout{
+	margin-left: 150px;
+	position: relative;
+	margin-top: 1%;
+}
+
+#ChangeUserInformation{
+	float: center;
+	width: 40%;
+	margin-left: 30%;
+	margin-top: 8%;
+	text-align: left;
+	height: auto;
+	border-top-right-radius: 30px;
+	border-bottom-left-radius: 30px;
+	border-top-left-radius: 30px;
+	border-bottom-right-radius: 30px;
+	box-shadow:4px 4px 12px 4px gray;
+	background-color: #FFFFAB;
+	padding-bottom: 6px;
+	padding-top: 2%;
+}
+
+#submit{
+	padding: 4px 12px 4px 12px;
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;	
+	color: black;
+	background-color: #A1FFA1;
+	font-weight:bold;
+}
+
+</style>
+		<title>編輯信息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function()
+{
+	getUSerInfo()
+	ChangeUserInformation.style.display = "block";	
+	
+	<!--賬號管理分頁-->
+	accountadit.style.display = "none";
+	passwordchange.style.display = "none";
+	<!--/賬號管理分頁-->	
+	
+	<!--/倉庫管理分頁-->
+	itemadd.style.display = "none";
+	itemsales.style.display = "none";
+	newitem.style.display = "none";
+	<!--/倉庫管理分頁-->
+	
+		
+	<!--訂單管理分頁-->
+	<!-- orderadd.style.display = "none"; -->
+	autoapprove.style.display = "none";
+	<!--/訂單管理分頁-->
+	
+	<!--/管理員分頁-->
+	storagemanage.style.display = "none";
+	employeemanage.style.display = "none";
+	ordermanage.style.display = "none";
+	analysismanage.style.display = "none";
+	suppliermanage.style.display = "none";
+	<!--/管理員分頁-->
+
+});
+
+<!--get user information-->
+function getUSerInfo(){
+	$.ajax({
+		url:"/projectv2/employee/php/showeinform.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{								
+			$("#employee").append(""+data1[0].EName);
+		},	
+		
+		error: function() {
+			//alert("ERROR!!!");
+			document.location.replace("/projectv2/employee/php/elogoff.php");
+		}
+	});
+
+}
+
+<!--sidebar-->
+function accountshow(){
+	accountadit.style.display = "block";
+	passwordchange.style.display = "block";
+}
+
+function accounthid(){
+	accountadit.style.display = "none";
+	passwordchange.style.display = "none";
+}
+
+function storageshow(){
+	itemadd.style.display = "block";
+	itemsales.style.display = "block";
+	newitem.style.display = "block";
+}
+
+function storagehid(){
+	itemadd.style.display = "none";
+	itemsales.style.display = "none";
+	newitem.style.display = "none";
+}
+
+function ordershow(){
+	<!-- orderadd.style.display = "block"; -->
+	autoapprove.style.display = "block";
+}
+
+function orderhid(){
+	<!-- orderadd.style.display = "none"; -->
+	autoapprove.style.display = "none";
+}
+
+function employeeshow(){
+	storagemanage.style.display = "block";
+	employeemanage.style.display = "block";
+	ordermanage.style.display = "block";
+	analysismanage.style.display = "block";
+	suppliermanage.style.display = "block";
+}
+
+function employeehid(){
+	storagemanage.style.display = "none";
+	employeemanage.style.display = "none";
+	ordermanage.style.display = "none";
+	analysismanage.style.display = "none";
+	suppliermanage.style.display = "none";
+}
+<!--/sidebar-->
+</script>
+
+	</head>
+	<body>
+	
+	<div id="top">
+	<form action="/projectv2/employee/php/elogoff.php" method="post" id="logout">
+		<input type='submit' name='submit' value='登出' onclick="/projectv2/employee/php/elogoff.php"/>	
+	</form>
+	<p style="color: red; margin-top: -2%;">歡迎回來，<span id="employee" style="color: red;"/></p>
+					
+	</div>
+
+	<!-- Content -->
+		<div id="content">
+			<div class="inner">
+
+				<!-- Post -->
+				<article class="box post post-excerpt">
+					<header>
+						<h2>編輯信息</h2>
+					</header>
+				</article>	
+				
+				<div id="ChangeUserInformation">
+					<form action="/projectv2/employee/php/echangeinform.php" method="post">
+					
+						<p style="margin-left:3%;">更改電話號碼: <input type="tel" placeholder="輸入新電話號碼" name="tel" id="tel"/></p>
+
+						<p style="margin-left:3%;">更改地址: <input type="textarea" name="address" id="address" placeholder="輸入新地址"/></p>
+						
+						<center><input type="submit" value="發送" id="submit" name="submit"/></center>
+						
+					</form>
+				</div>
+	
+			</div>
+		</div>
+	
+		<!-- Sidebar -->
+			<div id="sidebar" style="position:fixed">
+				</body>
+				
+				<!-- Nav -->
+					<nav id="nav">
+							
+							<ul> 
+								<li onmouseover="accountshow()" onmouseout="accounthid()"><a href="accountmanage.html">賬號管理</a>
+									<a id="accountadit" href="editinform.html" style="font-size: 12px; margin-left: 10px;">編輯信息</a>
+									<a id="passwordchange" href="changepassword.html" style="font-size: 12px; margin-left: 10px;">更改密碼</a>
+								</li>
+								
+								<li onmouseover="storageshow()" onmouseout="storagehid()"><a href="storageinform.html">倉庫資料</a>
+									<a id="itemadd" href="additem.html" style="font-size: 12px; margin-left: 10px;">進貨</a>
+									<a id="itemsales" href="salesitem.html" style="font-size: 12px; margin-left: 10px;">售出</a>
+									<a id="newitem" href="eaddnewitem.html" style="font-size: 12px; margin-left: 10px;">新增商品</a>
+								</li>						
+								
+								<li onmouseover="ordershow()" onmouseout="orderhid()"><a href="order.html">訂單</a>
+									<!--<a id="orderadd" href="addorder.html" style="font-size: 12px; margin-left: 10px;">新增訂單</a>-->
+									<a id="autoapprove" href="autoapprove.html" style="font-size: 12px; margin-left: 10px;">自動通過</a>
+								</li>
+								
+								<li onmouseover="employeeshow()" onmouseout="employeehid()"><a href="employeemanage.html">系統管理員</a>
+									<a id="storagemanage" href="adminstorage.html" style="font-size: 12px; margin-left: 10px;">倉庫</a>
+									<a id="suppliermanage" href="supplier.html" style="font-size: 12px; margin-left: 10px;">供應商</a>
+									<a id="employeemanage" href="employeeconf.html" style="font-size: 12px; margin-left: 10px;">員工</a>
+									<a id="ordermanage" href="autoapprovesetting.html" style="font-size: 12px; margin-left: 10px;">訂單設定</a>
+									<a id="analysismanage" href="analysis.html" style="font-size: 12px; margin-left: 10px;">數據分析</a>
+								</li>
+							</ul>
+					</nav>
+					
+		</div>
+			
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

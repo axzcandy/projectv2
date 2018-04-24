@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<title>Email Verify</title>
+<meta charset="UTF-8">
+
+<style>
+div{
+	background: linear-gradient(#3DFFFF,#C9FFFF);
+	height:auto; 
+	width:500px; 
+	margin:0px auto;
+	border-style: outset;
+	border-width: 3px;
+	
+}
+
+forget{
+	text-align:right;
+}
+
+h2{
+	height: 50px; 
+	width: 500px; 
+	background-color: #5959FF; 
+	margin: 0px; 
+	padding-top: 10px; 
+	padding-bottom: 1px; 
+	color: white;
+}
+
+#button1{
+	background-color: #A1FFA1; 
+}
+
+</style>
+
+<script>
+
+</script>
+<body>
+
+	<div>
+<center><form action="/projectv2/employee/php/emverifyemail.php" method="post">
+	
+	
+	<h2>Account Active</h2>
+
+	<p><input type="text" name="verifycode" id="verifycode" size="15" placeholder="verify code"/></p>
+	
+	<input type='submit' name='submit' id="button1" value='Send'/>
+</form></center>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<a>haven receive verify code ?</a><a href="@" class="forget" style="color: red;">Send Again</a>
+	
+	
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>忘記密碼</title>
+<meta charset="UTF-8"/>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="css/main.css" />
+
+<style>
+
+</style>
+
+<script>
+$(document).ready(function()
+{
+	getuserinfo();
+	loginoutarea.style.display = "none";
+	logout.style.display ="none";
+	register.style.display ="none";
+	login.style.display ="none";
+});
+
+function getuserinfo(){
+	$.ajax({
+		url:"/projectv2/customer/php/showcsinform1.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{				
+				$("#customername").append(data1[0].CName);
+				logout.style.display ="block";
+				login.style.display ="block";
+				register.style.display ="none";
+		},			
+		error: function() {
+			logout.style.display ="none";
+			register.style.display ="block";
+			login.style.display ="none";
+		}
+	});
+
+}
+
+function action(){
+	document.getElementById("forget").background-color
+}
+
+function mousein(){
+	loginoutarea.style.display = "block";
+}
+
+function mouseout(){
+	loginoutarea.style.display = "none";
+}
+
+function mouseinl(){
+	loginoutarea.style.display = "block";
+}
+</script>
+<body>
+
+<div id="centertext">
+	<div id="topmenu" onmouseover="mouseout()">	
+		<a href="/projectv2/customer/html/csmainpage"><b>垂坤</b></a>
+	</div>
+		
+	<div id="function">
+			<a href="/projectv2/customer/html/csmainpage.html" class="material-icons" title="主頁"  onmouseover="mouseout()">home</a>
+			<a href="/projectv2/customer/html/csaccountmanage.html" class="material-icons" alt="登入"  onmouseover="mousein()">person</a>			
+			<a href="/projectv2/customer/html/shoppingcart.html" class="material-icons" alt="購物車" onmouseover="mouseout()">shopping_cart</a>
+			<a href="/projectv2/customer/html/csorderiteminfo.html" class="material-icons" alt="物品狀態" onmouseover="mouseout()">local_shipping</a>
+			<a href="/projectv2/customer/html/csorderhistory.html" class="material-icons" alt="歷史" onmouseover="mouseout()">history</a>			
+	</div>
+	
+	<div id="loginoutarea" onmouseover="mouseinl()" onmouseout="mouseout()">
+		<center id="login"><p style="color: red;">歡迎，<a id="customername" style="color: red;"/></p></center>
+			<form action="/projectv2/customer/php/clogoff.php" method="post" id="logout">
+			<center><input type='submit' name='submit1' id="submit1" value='登出' onclick="/projectv2/customer/php/clogoff.php"/></center>
+			</form>
+		<center id="register">
+			<p style="color: red;">您還未登入</p>
+			<button id="btn1"><a href="/projectv2/customer/html/customerlogin.html">登入</a></button>
+			<button id="btn1"><a href="/projectv2/customer/html/customer register.html">注冊</a></button></center>
+	</div>		
+	
+	
+	<div id="forget">
+		<form action="/projectv2/customer/php/csforgetpass.php" method="post">
+			<p style="color:red;text-align:left;margin-left:10px;">尋回賬號</p>
+			<p onmouseover="action()" id="action">账号/郵箱 : <input type="text" id="usd" name="usd"/></p>
+			<input type="submit" id="submit" name="submit"/>		
+			<button><a href="/projectv2/customer/html/customerlogin.html">返回</a></button>
+		</form>
+	</div>
+	
+	<div id="footer">
+		<p><small><b>垂坤食品有限公司 © 2014 All Rights Reserved. <br> 
+		苗栗縣苑裡鎮大同路88號 <br>
+		客服專線：037-867840　　傳真：037-866407</b></small></p>
+	</div>
+</div>
+
+</body>
+</html>
+

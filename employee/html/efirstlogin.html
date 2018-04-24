@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<title>Email Verify</title>
+<meta charset="UTF-8">
+
+<style>
+div{
+	background: linear-gradient(#3DFFFF,#C9FFFF);
+	height:auto; 
+	width:500px; 
+	margin:0px auto;
+	border-style: outset;
+	border-width: 3px;
+	
+}
+
+forget{
+	text-align:right;
+}
+
+h2{
+	height: 50px; 
+	width: 500px; 
+	background-color: #5959FF; 
+	margin: 0px; 
+	padding-top: 10px; 
+	padding-bottom: 1px; 
+	color: white;
+}
+
+#button1{
+	background-color: #A1FFA1; 
+}
+
+</style>
+
+<script>
+function validate() {
+              var password = document.getElementById("password").value;
+              var password1 = document.getElementById("password1").value;
+              if(password == password1) {
+                  document.getElementById("checkpass").innerHTML="<style>#password1{border-color: #00EB00; border-width: 3px;}</style>";
+                  document.getElementById("submit").disabled = false;
+              }
+              else {
+                  document.getElementById("checkpass").innerHTML="<style>#password1{border-color: #FF3B3B	;border-width: 3px;}</style>";
+                document.getElementById("submit").disabled = true;
+              }
+}
+
+function check(){
+	
+}
+</script>
+<body>
+
+	<div>
+<center><form action="/projectv2/employee/php/efirstlogin.php" method="post">
+		
+	<h2>賬戶設定</h2>
+	<p><input type="text" name="euser1" id="euser1" size="15" placeholder="昵稱" required /></p>
+	<p><input type="password" name="password" id="password" size="15" placeholder="password" required /></p>
+	<p><input type="password" name="password1" id="password1" size="15" placeholder="password" onkeyup="validate()" required /></p>
+	<span id="checkpass"></span>
+	<p><input type="checkbox" name="agreement" id="agreement" required />用戶協定</p>
+	<input type='submit' name='submit' id="submit" value='Send'/>
+</form></center>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<a>haven receive verify code ?</a><a href="@" class="forget" style="color: red;">Send Again</a>
+	
+	
+  </div>
+
+</body>
+</html>

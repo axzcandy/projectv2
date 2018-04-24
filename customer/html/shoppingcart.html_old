@@ -1,0 +1,211 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>垂坤</title>
+<meta charset="UTF-8"/>
+</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<style>
+html{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	z-index: -100;
+}
+	
+body{
+	margin: 0;
+	padding: 0;
+	background: url('image/background.jpg') center center fixed no-repeat;
+    -moz-background-size: cover;
+    background-size: cover;
+	z-index: -90;
+}
+
+#centertext{
+	width: 80%;
+	margin: 5% 10%;
+	bottom: 0%;
+	height: 450px;
+	z-index: -80;
+}
+
+#topmenu{
+	width:100%;
+	position: absolute;
+	height: auto;
+	background-color: #4F4F4F opacity: 0;
+	left: 0;
+	text-align: center;
+	top: 4%;
+	z-index: -60;
+}
+
+#topmenu a{
+	font-size:40px;
+	color: black;
+	text-decoration: none;
+}
+
+#function{
+	text-align: right;
+	position: relative;
+	background-color: #4F4F4F opacity: 0; 
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	z-index: 10;
+}
+
+#function a{
+	margin: 5px 5px;
+	color: black;
+	text-decoration: none;
+	font-size: 30px;
+}
+
+#function #customername{
+	color: red;
+	text-align: left;
+	font-size: 16px;
+}
+
+#footer{
+	background-color: #4F4F4F opacity: 0;
+	position: fixed;
+	height: 80px;
+	margin-bottom: 0%;
+	width: 60%;
+	left: 20%;
+}
+
+#footer p{
+	text-align: center;
+	color: black;
+	margin: 10px 10px;
+}
+
+#loginoutarea{
+	z-index: 999;
+	background-color: #E8E8E8;
+	margin-left: 65%;
+	width: 100px;
+	margin-top: 0%;
+	position: absolute;
+	border: solid 1px;
+}
+
+#customername p{
+	text-align: center;
+	color: red;
+}
+
+#content{
+	<!-- position: relative; -->
+	top: 56px;
+	left: 0%;
+	text-align: left;	
+}
+
+#content > .inner{
+	max-width: 1038px;
+}
+
+#loginarea{
+	margin-left: 42%;
+	width: 20%;
+	margin-top: 10%;
+}
+
+</style>
+
+<script>
+$(document).ready(function()
+{	
+	getuserinfo();
+	loginoutarea.style.display = "none";
+	logout.style.display ="none";
+	register.style.display ="none";
+	login.style.display ="none";
+});
+
+function getuserinfo(){
+	$.ajax({
+		url:"/projectv2/customer/php/showcsinform.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{				
+				$("#customername").append(data1[0].CName);
+				logout.style.display ="block";
+				login.style.display ="block";
+				register.style.display ="none";
+		},			
+		error: function() {
+			logout.style.display ="none";
+			register.style.display ="block";
+			login.style.display ="none";
+		}
+	});
+
+}
+
+function mousein(){
+	loginoutarea.style.display = "block";
+}
+
+function mouseout(){
+	loginoutarea.style.display = "none";
+}
+
+function mouseinl(){
+	loginoutarea.style.display = "block";
+}
+</script>
+<body>
+	<div id="centertext">
+	<div id="topmenu" onmouseover="mouseout()">	
+		<a href="/projectv2/customer/html/csmainpage"><b>垂坤</b></a>
+	</div>
+		
+	<div id="function">
+			<a href="/projectv2/customer/html/csaccountmanage.html" class="material-icons" alt="登入"  onmouseover="mousein()">person</a>			
+			<a href="/projectv2/customer/html/shoppingcart.html" class="material-icons" alt="購物車" onmouseover="mouseout()">shopping_cart</a>
+			<a href="/projectv2/customer/html/csorderiteminfo.html" class="material-icons" alt="物品狀態" onmouseover="mouseout()">local_shipping</a>
+			<a href="/projectv2/customer/html/csorderhistory.html" class="material-icons" alt="歷史" onmouseover="mouseout()">history</a>			
+	</div>
+	
+		<div id="loginoutarea" onmouseover="mouseinl()" onmouseout="mouseout()">
+			<center id="login"><p style="color: red;">歡迎，<a id="customername" style="color: red;"/></p></center>
+			<form action="/projectv2/customer/php/clogoff.php" method="post" id="logout">
+			<center><input type='submit' name='submit' value='登出' onclick="/projectv2/customer/php/clogoff.php"/></center>
+			</form>
+			<center id="register">
+			<p style="color: red;">您還未登入</p>
+			<button><a href="/projectv2/customer/html/customerlogin.html">登入</a></button>
+			<button><a href="/projectv2/customer/html/customer register.html">注冊</a></button></center>
+		</div>		
+		
+	<div id="content">
+		
+
+	</div>
+						
+	</div>
+	
+	
+	
+	<div id="footer">
+		<p><small><b>垂坤食品有限公司 © 2014 All Rights Reserved. <br> 
+		苗栗縣苑裡鎮大同路88號 <br>
+		客服專線：037-867840　　傳真：037-866407</b></small></p>
+	</div>
+
+</body>
+</html>

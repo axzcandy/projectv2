@@ -1,0 +1,596 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	
+<style>
+#top{
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 10000;
+    background: #364050 url("assets/css/images/bg01.png");
+	border: solid 1px;
+    padding: 3px;
+    font-size: 16px;
+}
+
+#logout{
+	margin-left: 150px;
+	position: relative;
+	margin-top: 1%;
+}
+html,body,#myChart { height:100%; width:100%;}
+</style>
+		<title>數據分析</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+$(document).ready(function()
+{	
+	getyear();
+	getUSerInfo();
+	showanalysis.style.display = "block";
+	analisisdata.style.display = "none";
+	cssingle.style.display = "none";
+	analisiscsdata.style.display = "none";
+	analisiscsdatasingle.style.display = "none"
+	<!--賬號管理分頁-->
+	accountadit.style.display = "none";
+	passwordchange.style.display = "none";
+	<!--/賬號管理分頁-->	
+	
+	<!--/倉庫管理分頁-->
+	itemadd.style.display = "none";
+	itemsales.style.display = "none";
+	newitem.style.display = "none";
+	<!--/倉庫管理分頁-->
+	
+		
+	<!--訂單管理分頁-->
+	orderadd.style.display = "none";
+	autoapprove.style.display = "none";
+	<!--/訂單管理分頁-->
+	
+	<!--/管理員分頁-->
+	storagemanage.style.display = "none";
+	employeemanage.style.display = "none";
+	ordermanage.style.display = "none";
+	analysismanage.style.display = "none";
+	<!--/管理員分頁-->
+	
+	$(function() { 
+	  $("#itype").change(function() { //this occurs when select 1 changes
+		$.ajax({
+			url:"/projectv2/employee/php/instockgetitemcode.php",
+			type: "GET",
+			dataType: "json",
+			data: {itype:$(this).val()},
+			success: function(data1) 
+			{	
+				//console.log(data1);		
+				$('#icode').find('option').remove();
+				var NumOfJData = data1.length;
+				for(var i=0;i<NumOfJData;i++){
+					$('#icode').append(
+						$('<option></option>').val(data1[i].ICode).html(data1[i].IName)
+					);
+					//console.log(data1);
+				}
+				
+			},
+			error: function(data1) {
+				//console.log(data1);
+			}
+		});
+		//console.log($(this).val());
+	  });
+	});
+});
+	//chart start here
+
+function chartshowtop(titletext,data1,nn){	
+	//console.log("call");
+	Highcharts.chart('container', {
+		chart: {
+			plotBackgroundColor: null,
+			plotBorderWidth: null,
+			plotShadow: false,
+			type: 'pie'
+		},
+		title: {
+			text: titletext
+			//'Browser market shares January, 2015 to May, 2015'
+		},
+		tooltip: {
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+		},
+		plotOptions: {
+			pie: {
+				allowPointSelect: true,
+				cursor: 'pointer',
+				dataLabels: {
+					enabled: true,
+					format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					style: {
+						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+					}
+				}
+			}
+		},
+		series: [{
+			name: nn,
+			colorByPoint: true,
+			data: data1
+		}]
+	});
+}
+
+/*	
+	//https://stackoverflow.com/questions/17075082/jquery-push-to-make-multidimensional-array
+	serial=[{
+			name: 'Installation',
+			data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+		}, {
+			name: 'Manufacturing',
+			data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+		}, {
+			name: 'Sales & Distribution',
+			data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+		}, {
+			name: 'Project Development',
+			data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+		}, {
+			name: 'Other',
+			data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+		}];
+console.log(serial);
+});
+function chartshowsingle(serial,titletext,subtitletext,yAxistitletext,pointStart1){		
+	Highcharts.chart('containersingle', {
+
+    title: {
+        text: titletext
+		//'Solar Employment Growth by Sector, 2010-2016'
+    },
+
+    subtitle: {
+        text: subtitletext
+		//'Source: thesolarfoundation.com'
+    },
+
+    yAxis: {
+        title: {
+            text: yAxistitletext
+			//'Number of Employees'
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 2010
+        }
+    },
+
+    series: serial,
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+	});
+}*/
+	
+function chartsingle(titletext,value){
+Highcharts.chart('containersingle', {
+    chart: {
+        type: 'area'
+    },
+    title: {
+        text: titletext
+    },xAxis: {
+        categories: ['1', '2', '3', '4', '5','6', '7', '8', '9', '10', '11', '12']
+    },
+    credits: {
+        enabled: false
+    },
+    series: value
+});
+}
+	//chart end here
+
+
+<!--get user information-->
+function getUSerInfo(){
+	$.ajax({
+		url:"/projectv2/employee/php/showeinform.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{								
+			$("#employee").append(""+data1[0].EName);
+		},	
+		
+		error: function() {
+			//alert("login!!!");
+			document.location.replace("/projectv2/employee/php/elogoff.php");
+		}
+	});
+
+}
+
+<!--sidebar-->
+function accountshow(){
+	accountadit.style.display = "block";
+	passwordchange.style.display = "block";
+}
+
+function accounthid(){
+	accountadit.style.display = "none";
+	passwordchange.style.display = "none";
+}
+
+function storageshow(){
+	itemadd.style.display = "block";
+	itemsales.style.display = "block";
+	newitem.style.display = "block";
+}
+
+function storagehid(){
+	itemadd.style.display = "none";
+	itemsales.style.display = "none";
+	newitem.style.display = "none";
+}
+
+function ordershow(){
+	orderadd.style.display = "block";
+	autoapprove.style.display = "block";
+}
+
+function orderhid(){
+	orderadd.style.display = "none";
+	autoapprove.style.display = "none";
+}
+
+function employeeshow(){
+	storagemanage.style.display = "block";
+	employeemanage.style.display = "block";
+	ordermanage.style.display = "block";
+	analysismanage.style.display = "block";
+}
+
+function employeehid(){
+	storagemanage.style.display = "none";
+	employeemanage.style.display = "none";
+	ordermanage.style.display = "none";
+	analysismanage.style.display = "none";
+}
+<!--/sidebar-->
+function storageanalysispress(){
+	analisiscsdata.style.display = "none";
+	analisisdata.style.display = "block";
+	cssingle.style.display = "none";
+}
+function customeranalysispress(){
+	analisisdata.style.display = "none";
+	analisiscsdata.style.display = "none";
+	cssingle.style.display = "block";
+		$.ajax({
+			url:"/projectv2/employee/php/eanalysis.php",
+			type: "GET",
+			dataType: "json",
+			data:{what:"cstop"},
+			success: function(data1) 
+			{	
+				var data=[];
+				console.log(data1);
+				if(data1!="empty"){
+					for(var i=0;i<data1.length;i++){
+						var temp=0;
+						if(parseInt(data1[i].y)<0){
+							temp=0;
+						}else{
+							temp=parseInt(data1[i].y);
+						}
+						nam="用戶";
+						data.push({
+							name: data1[i].name,
+							y:parseInt(temp)
+						});
+						//console.log(data);
+						analisiscsdata.style.display = "block"
+						analisiscsdatasingle.style.display = "none"
+						
+					}
+				}else{
+				}
+				//console.log("out");
+				chartshowtop("利潤",data,nam);
+			},
+			error: function(data1){
+				console.log(data1);
+			}
+		});
+	
+	
+}
+function getyear(){
+	$.ajax({
+			url:"/projectv2/employee/php/eanalysis.php",
+			type: "GET",
+			dataType: "json",
+			data:{what:"getyear"},
+			success: function(data1) 
+			{	
+				console.log(data1);
+				$('#yearselected').find('option').remove();
+				var NumOfJData = data1.length;
+				for(var i=0;i<NumOfJData;i++){
+					$('#yearselected').append(
+						$('<option></option>').val(data1[i].yy).html(data1[i].yy)
+					);
+				}
+			},
+			error: function(data1){
+				//console.log(data1);
+			}
+		});
+}
+function getanalysisstat(e){
+	//console.log(e);
+	if(e=="top"){
+		$.ajax({
+			url:"/projectv2/employee/php/eanalysis.php",
+			type: "GET",
+			dataType: "json",
+			data:{what:"top"},
+			success: function(data1) 
+			{	
+				var data=[];
+				
+				//console.log(data1);
+				for(var i=0;i<data1.length;i++){
+				var temp=0;
+				if(parseInt(data1[i].y)<0){
+					temp=0;
+				}else{
+					temp=parseInt(data1[i].y);
+				}
+					var nam="產品";
+					data.push({
+						name: data1[i].name+"NT:"+temp,
+						y:parseInt(temp)
+					});
+				}
+
+				//console.log(data);
+				analisiscsdata.style.display = "block"
+				analisiscsdatasingle.style.display = "none"
+				chartshowtop("全產品縂利潤",data,nam);
+			},
+			error: function(data1){
+				console.log(data1);
+			}
+		});
+	}else if(e=="year"){
+	//console.log("year");
+		getyear();
+		var sdf=document.getElementById("yearselected").value;
+		$.ajax({
+			url:"/projectv2/employee/php/eanalysis.php",
+			type: "GET",
+			dataType: "json",
+			data:{what:"year",sdf:sdf},
+			success: function(data1) 
+			{	
+				var data=[];
+				console.log(data1);
+				for(var i=0;i<data1.length;i++){
+				var temp=0;
+				if(parseInt(data1[i].y)<0){
+					temp=0;
+				}else{
+					temp=parseInt(data1[i].y);
+				}
+					var nam="產品";
+					data.push({
+						name: data1[i].name+"NT:"+temp,
+						y:parseInt(temp)
+					});
+				}
+
+				//console.log(data);
+				analisiscsdata.style.display = "block"
+				analisiscsdatasingle.style.display = "none"
+				chartshowtop("Year "+sdf+" 產品利潤",data,nam);
+			},
+			error: function(data1){
+				console.log(data1);
+			}
+		});
+	}else if(e=="single"){
+		cssingle.style.display = "none";
+		analisiscsdata.style.display = "none"
+		analisiscsdatasingle.style.display = "block"
+	}else if(e=="submit"){
+	//console.log("submitpress");
+		var icode1=document.getElementById('icode').value;
+		console.log(icode1);
+		$.ajax({
+			url:"/projectv2/employee/php/eanalysis.php",
+			type: "GET",
+			dataType: "json",
+			data:{what:"single",icode:icode1},
+			success: function(data1) 
+			{	
+				var data=[];
+				//console.log(data1);
+				if(data1!="empty"){
+					for(var i=0;i<data1.length;i++){
+						var temp=0;
+						if(parseInt(data1[i].y)<0){
+							temp=0;
+						}else{
+							temp=parseInt(data1[i].y);
+						}
+						nam="產品";
+						data.push({
+							name: "年:"+data1[i].name+"NT:"+temp,
+							y:parseInt(temp)
+						});
+						//console.log(data);
+						cssingle.style.display = "none";
+						analisiscsdata.style.display = "block"
+						analisiscsdatasingle.style.display = "none"
+						chartshowtop("產品："+data1[0].nn+"利潤（年）",data,nam);
+					}
+				}else{
+					cssingle.style.display = "none";
+					analisiscsdata.style.display = "block"
+					analisiscsdatasingle.style.display = "none"
+					chartshowtop("產品："+icode1+"利潤（年）为负数",data,"O_O!");
+				}
+
+			},
+			error: function(data1){
+				console.log(data1);
+			}
+		});
+		
+	}
+}
+</script>
+	</head>
+	<body>
+	
+	<div id="top">
+	<form action="/projectv2/employee/php/elogoff.php" method="post" id="logout">
+		<input type='submit' name='submit' value='登出' onclick="/projectv2/employee/php/elogoff.php"/>	
+	</form>
+	<p style="color: red; margin-top: -2%;">歡迎回來，<span id="employee" style="color: red;"/></p>
+					
+	</div>
+
+	<!-- Content -->
+		<div id="content">
+			<div class="inner">
+
+				<!-- Post -->
+				<article class="box post post-excerpt">
+					<header>
+						<h2>數據分析</h2>
+					</header>
+				</article>											
+				
+				<div id="showanalysis">
+					<center><button onclick='storageanalysispress()'>倉庫數據分析</button> 
+					<button onclick='customeranalysispress()'>客戶數據分析</button></center>
+					
+				</div>
+			<div id="analisisdata">
+					<select name="yearselected" id="yearselected"><option value="2017">2017</option></select>
+					<input type="button" id="year" name="year" value="yearly" onclick="getanalysisstat('year')"/>
+					<input type="button" id="single" name="single" value="Single product" onclick="getanalysisstat('single')"/>
+					<input type="button" id="topfive" name="topfive" value="top" onclick="getanalysisstat('top')"/>
+				<div id="analisiscsdatasingle">
+					<div id="singleproductoption">	
+					<form method="post">
+						物品種類:<select name="itype" id="itype"> 
+										  <option value="no">請選擇系列：</option>
+										  <option value="RS">肉鬆系列</option>
+										  <option value="XC">香腸系列</option>
+										  <option value="ZR">豬肉系列</option>
+										  <option value="NR">牛肉系列</option>
+										  <option value="YR">魚製品系列</option>
+										  <option value="JG">堅果系列</option>
+										  <option value="DG">豆干系列</option>
+										  <option value="MQ">蜜餞系列</option>
+										  <option value="XX">休閒食品系列</option>
+										  <option value="BG">餅乾系列</option>
+										  <option value="OT">其他</option>
+										  <option value="ALL">全部</option>
+										</select><p></p>
+						物品名稱:<select name="icode" id="icode"> 
+								<option>請選擇物品種類：</option>
+						</select>
+						<input type="button" id="submit" name="submit" value="submit" onclick="getanalysisstat('submit')"/>
+					
+					</form>
+					</div>
+					
+					<div id="containersingle" style="min-width: 300px; height: 300px; margin: 1em" ></div>
+				</div>				
+				<div id="analisiscsdata">
+					<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+					<!-- <div id="container" style="min-width: 300px; height: 300px; margin: 1em" ></div> -->
+				</div>
+		</div>
+		<div id="cssingle" name="cssingle">
+					<input type="button" id="topcs" name="topcs" value="Top 5 Customer" />
+		</div>
+		<!-- Sidebar -->
+			<div id="sidebar" style="position:fixed">
+				</body>
+				
+				<!-- Nav -->
+					<nav id="nav">
+							
+							<ul> 
+								<li onmouseover="accountshow()" onmouseout="accounthid()"><a href="accountmanage.html">賬號管理</a>
+									<a id="accountadit" href="editinform.html" style="font-size: 12px; margin-left: 10px;">編輯信息</a>
+									<a id="passwordchange" href="changepassword.html" style="font-size: 12px; margin-left: 10px;">更改密碼</a>
+								</li>
+								
+								<li onmouseover="storageshow()" onmouseout="storagehid()"><a href="storageinform.html">倉庫資料</a>
+									<a id="itemadd" href="additem.html" style="font-size: 12px; margin-left: 10px;">進貨</a>
+									<a id="itemsales" href="salesitem.html" style="font-size: 12px; margin-left: 10px;">售出</a>
+									<a id="newitem" href="eaddnewitem.html" style="font-size: 12px; margin-left: 10px;">新增商品</a>
+								</li>						
+								
+								<li onmouseover="ordershow()" onmouseout="orderhid()"><a href="order.html">訂單</a>
+									<a id="orderadd" href="addorder.html" style="font-size: 12px; margin-left: 10px;">新增訂單</a>
+									<a id="autoapprove" href="autoapprove.html" style="font-size: 12px; margin-left: 10px;">自動通過</a>
+								</li>
+								
+								<li onmouseover="employeeshow()" onmouseout="employeehid()"><a href="employeemanage.html">系統管理員</a>
+									<a id="storagemanage" href="adminstorage.html" style="font-size: 12px; margin-left: 10px;">倉庫</a>
+									<a id="employeemanage" href="employeeconf.html" style="font-size: 12px; margin-left: 10px;">員工</a>
+									<a id="ordermanage" href="autoapprovesetting.html" style="font-size: 12px; margin-left: 10px;">訂單設定</a>
+									<a id="analysismanage" href="analysis.html" style="font-size: 12px; margin-left: 10px;">數據分析</a>
+								</li>
+							</ul>
+					</nav>
+					
+		</div>
+			
+		<!-- Scripts -->
+			<!--<script src="assets/js/jquery.min.js"></script> -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

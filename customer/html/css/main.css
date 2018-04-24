@@ -1,0 +1,429 @@
+html{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	z-index: -100;
+}
+	
+body{
+	margin: 0;
+	padding: 0;
+	background: url('/projectv2/customer/html/image/background.jpg') center center fixed no-repeat;
+    -moz-background-size: cover;
+    background-size: cover;
+	z-index: -90;
+}
+
+#centertext{
+	width: 80%;
+	margin: 5% 10%;
+	bottom: 0%;
+	height: auto;
+	z-index: -80;
+}
+
+#topmenu{
+	width:100%;
+	position: absolute;
+	height: auto;
+	background-color: #4F4F4F opacity: 0;
+	left: 0;
+	text-align: center;
+	top: 4%;
+	z-index: -60;
+}
+
+#topmenu a{
+	font-size:40px;
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#topmenu a:hover{
+	font-size:46px;
+	color: red;
+	text-shadow: 5px 5px 5px gray;
+}
+
+#function{
+	text-align: right;
+	position: relative;
+	background-color: #4F4F4F opacity: 0; 
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	z-index: 10;
+}
+
+#function a{
+	margin: 5px 5px;
+	color: black;
+	text-decoration: none;
+	font-size: 30px;
+}
+
+#function a:hover{
+	color: #855600;
+	font-weight: bold;
+}
+
+#function #customername{
+	color: red;
+	text-align: left;
+	font-size: 16px;
+}
+
+#footer{
+	background-color: #4F4F4F opacity: 0;
+	position: relative;
+	height: auto;
+	bottom: 0%;
+	width: 60%;
+	left: 20%;
+	margin-top: 5%;
+}
+
+#footer p{
+	text-align: center;
+	color: black;
+	margin: 10px 10px;
+}
+
+#loginoutarea{
+	z-index: 999;
+	background-color: #E8E8E8;
+	margin-left: 66.5%;
+	width: 100px;
+	margin-top: 0%;
+	position: absolute;
+	border: solid 1px;
+}
+
+#customername p{
+	text-align: center;
+	color: red;
+}
+
+#content > .inner{
+	max-width: 100%;
+}
+
+#content{
+	position: relative;
+	margin-top: 2%;
+	margin-left: 20%;
+	text-align: center;	
+	background-color: #E8E8E8;
+	height: auto;
+	padding: 5px 5px;
+	width: 60%;
+	border: solid 1px;
+	border-top-right-radius: 30px;
+	border-bottom-left-radius: 30px;
+	border-top-left-radius: 30px;
+	border-bottom-right-radius: 30px;
+	box-shadow:4px 4px 12px 4px gray;
+}
+
+input{
+	box-shadow:1px 1px 3px 2px #ABB2B9;
+}
+
+#cancel{
+	box-shadow:1px 1px 3px 2px #ABB2B9;	
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	padding: 8px 12px 8px 12px;
+	background-color: #FF8C8C;
+	margin-left: 1%;
+	font-weight:bold;
+	text-decoration: none;
+}
+
+button{
+	box-shadow:1px 1px 3px 2px #ABB2B9;	
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	padding: 8px 12px 8px 12px;
+	background-color: #FF8C8C;
+	margin-left: 2%;
+	font-weight:bold;
+	text-decoration: none;
+	color: black;
+}
+
+#submit1{
+	padding: 8px 12px 8px 12px;
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;	
+	color: black;
+	background-color: #FF8C8C;
+	font-weight:bold;
+}
+
+#submit{
+	padding: 8px 12px 8px 12px;
+	border-top-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;	
+	color: black;
+	background-color: #A1FFA1;
+	font-weight:bold;
+}
+
+#basic{
+	margin-top: 1%;
+	float: left;
+	width: 50%;
+	height: auto;
+	/* <!-- border-right: solid 1px; --> */
+	/* <!-- border-bottom: solid 1px; --> */
+}
+
+#other{
+	margin-top: 1%;
+	width: 50%;
+	float: right;
+	height: 280px;
+}
+
+td{
+	text-align: center;
+}
+
+form p{
+	text-align: center;
+}
+
+#shoppingcarttable{
+	background-color: #E8E8E8;
+}
+
+#dataTable{
+	height: 260px;	
+	overflow: auto;
+	background-color: #E8E8E8 ;
+	text-align: center;
+	margin-left: 15%;
+	width: 70%;
+	z-index: 20;
+	border: solid 1px;
+}
+
+#mainpagecontent{
+	position: relative;
+	margin-top: 2%;
+	margin-left: 20%;
+	text-align: center;	
+	background-color: #E8E8E8;
+	height: auto;
+	padding: 5px 5px;
+	width: 60%;
+	border: solid 1px;
+	border-top-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-top-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	box-shadow:4px 4px 12px 4px gray;
+}
+
+#mainpagedataTable{
+	border-style: solid;
+	border-width: 2px;
+	height: auto;
+	overflow: auto;
+	background-color: #E8E8E8;
+	border-top-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-top-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	box-shadow:4px 4px 12px 4px gray;
+}
+
+#mainpageshoppingcarttable{
+	background-color: #E8E8E8;
+	text-align: center;
+	width: 100%;
+}
+
+#th,#tr{
+	text-align: left;
+	border: 1px solid black;	
+}
+
+#thicode{
+	text-align: left;
+	border: 1px solid black;
+   
+}
+
+#trbtn{
+	text-align: center;
+	border: 1px solid black;
+}
+#trremark{
+	text-align: left;
+	border: 1px solid black;
+}
+
+#tritype{
+	text-align: left;
+	border: 1px solid black;
+}
+
+#thpic{
+	text-align: center;
+	padding: 5px;
+	border: 1px solid black;
+}
+
+#table1{
+	border-spacing: 5px;
+	/* <!-- padding: 5px; --> */
+	/* <!-- margin:1px; --> */
+	width: 60%;
+	margin-left: 20%;
+	
+}
+
+#dataTable #nosession{
+	text-align: center;
+	font-size: 45px;
+	color: red;
+	margin-right: 30%;
+	background-color: #E8E8E8 opacity:0;
+}
+
+#tt{
+	margin-left: 41.5%;
+	margin-top: 0%;
+	background-color: gray opacity: 0;
+	font-style: bold;
+}
+
+#message{
+	text-align: center;
+	width: 100%;
+}
+
+#message1{
+	text-align: center;
+	margin-left: 24%;
+	background-color: #E8E8E8 opacity:0;
+}
+
+#forget{
+	width: 40%;
+	margin-left: 30%;
+	text-align: center;
+	margin-top: 5%;
+	border: solid 1px;
+	border-top-right-radius: 200px;
+	border-bottom-left-radius: 200px;
+	border-top-left-radius: 30px;
+	border-bottom-right-radius: 30px;	
+	box-shadow:4px 4px 12px 4px gray;
+	height: auto;
+	background-color: #E8E8E8;
+}
+
+#content #loginarea{
+	border-radius: 50% / 50%;
+}
+
+#historydataTable{
+	height: 260px;	
+	overflow: auto;
+	background-color: #E8E8E8 ;
+	text-align: center;
+	width: 80%;
+	z-index: 20;
+	margin-left: 10%;
+	border: solid 1px;
+}
+
+
+#csaccountmanagecontent{
+	/* <!-- position: relative; --> */
+	top: 56px;
+	left: 0%;
+	text-align: left;	
+}
+
+#csaccountmanagedataTable{
+	height: auto;	
+	/* overflow: auto; */
+	background-color: #E8E8E8 opacity: 0;
+	text-align: center;
+	width: 80%;
+	z-index: 20;
+	margin-left: 10%;
+}
+
+#csaccountmanagetable1{
+	border-spacing: 5px;
+	width: 60%;
+	margin-left: 35%;
+}
+
+#json{
+	margin-left: 0%;
+	width: 100%;
+}
+
+#historytable1{
+	border-spacing: 5px;
+	width: 100%;
+	margin-left: 0%;
+}
+
+#cschangeinformation{
+	margin-top: 5%;
+	margin-left: 33%;
+	width: 35%;
+	height: auto;
+	padding-bottom: 1%;
+	padding-top: 1%;
+	background-color: #E8E8E8;
+	box-shadow: 4px 4px 12px 4px gray;
+}
+
+#cschangepassword{
+	margin-left: 30%;
+	width: 40%;
+	height: auto;
+	text-align: center;
+	height: 25%;
+	background-color: #E8E8E8;
+	border-top-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-top-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	box-shadow: 4px 4px 12px 4px gray;
+	margin-top: 5%;
+}
+
+#password-left{
+	float: left;
+	margin-left: 10%;
+	width: 35%;
+	text-align: center;
+	height: 100%;
+}
+
+#password-right{
+	float: right;
+	margin-right: 10%;
+	width: 35%;
+	height: 100%;
+	text-align: center;
+}
+

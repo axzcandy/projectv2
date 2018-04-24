@@ -1,0 +1,562 @@
+<!DOCTYPE HTML>
+<html>
+<head>	
+<style>
+#top{
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 10000;
+    background-color:  #364050;
+    border-width: 1px;
+    border-style: solid;
+    padding: 15px;
+    font-size: 16px;
+	text-align: left;
+}
+
+#dataTable{
+	border-style: solid;
+	border-width: 2px;
+	height: 330px;
+	overflow: auto;
+}
+#th,#tr{
+	text-align: left;
+	border: 1px solid black;
+  
+}
+
+#thicode{
+	text-align: left;
+	border: 1px solid black;
+   
+}
+#trbtn{
+	text-align: center;
+	border: 1px solid black;
+}
+#trremark{
+	text-align: left;
+	border: 1px solid black;
+}
+#tritype{
+	text-align: left;
+	border: 1px solid black;
+}
+#thpic{
+	text-align: left;
+	padding: 15px;
+	border: 1px solid black;
+}
+#table1{
+	border-spacing: 15px;
+	padding: 5px;
+	margin:15px;
+}
+</style>
+
+		<title>Storage Inform</title>
+		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		
+<script>
+var shoppingcart=[];
+var shoppingqty=[];
+var shoppingprice=[];
+
+//console.log('start'+shoppingcart);
+$(document).ready(function()
+{	
+	var shoppingcart_div=document.getElementById("shoppingcart_div");
+	var dataTable=document.getElementById('dataTable');
+	dataTable.style.display = "block";
+	getInfo();
+	
+
+	<!--賬號管理分頁-->
+	accountadit.style.display = "none";
+	passwordchange.style.display = "none";
+	<!--/賬號管理分頁-->	
+	
+	<!--/倉庫管理分頁-->
+	itemadd.style.display = "none";
+	itemsales.style.display = "none";
+	<!--/倉庫管理分頁-->
+	
+		
+	<!--訂單管理分頁-->
+	orderadd.style.display = "none";
+	autoapprove.style.display = "none";
+	<!--/訂單管理分頁-->
+	
+	<!--/管理員分頁-->
+	storagemanage.style.display = "none";
+	employeemanage.style.display = "none";
+	ordermanage.style.display = "none";
+	analysismanage.style.display = "none";
+	<!--/管理員分頁-->
+	
+	//page load
+	shoppingcart_div.style.border = 'none';
+	shoppingcart_div.style.display = 'none'
+	//checkcart("testingcookie");
+	<!--cookie check-->
+	//setCookie("uniquecookieid", "testingcookie", 30);
+	
+	//getCookie("uniquecookieid");
+	//alert("cookieuniq="+cookieuniq);
+	//localStorage.uniquecookieid="testingcookie";
+	if(localStorage.uniquecookieid)
+	{
+		var cookieuniq = localStorage.uniquecookieid;
+		console.log("pass1 uniquecookieid="+localStorage.uniquecookieid);
+		//checkcart("testingcookie");
+		checkcart(cookieuniq);
+	}else{
+		var text = "";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+		for (var i = 0; i < 11; i++){
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
+		var value=text;
+		localStorage.uniquecookieid=value;
+		console.log("new uniquecookieid="+localStorage.uniquecookieid);
+		
+		//setCookie("uniquecookieid", value, 30);
+	}
+			
+	<!--cookie check end-->
+});
+<!-- cookie functions -->
+/*
+function setCookie(name, value, days) {
+    var d = new Date;
+    d.setTime(d.getTime() + 24*60*60*1000*days);
+    document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+}
+function getCookie(name) {
+    var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return v ? v[2] : null;
+}
+function deleteCookie(name) { setCookie(name, '', -1); }
+<!-- cookie functions ends -->
+*/
+
+function checkcart(cookieuniq){
+	console.log("log start");
+	
+	$.ajax({
+		url:"/projectv2/customer/php/shoppingcartcookie.php",
+		type: "POST",
+		dataType: "json",
+		data: {cookieid:cookieuniq},
+		success: function(data1) 
+		{
+			//console.log(data1.length);
+			//console.log((data1));
+			if(data1=="cookie isset"){
+				//alert("data1==cookie isset");
+			}else if(data1=="nodata"){
+				//alert("data1==nodata");
+			}else if(data1!="cookie isset"||data1!="nodata"){
+				for(var i=0;i<data1.length;i++){
+					//console.log("lalla");
+					//console.log((data1[i][j]));
+					shoppingcart[i]=data1[i][0];
+					shoppingqty[i]=data1[i][1];
+					shoppingprice[i]=data1[i][2];
+					
+				}
+				//console.log("lalla");
+				//console.log((data1));
+			}else{
+				//unexpected reply
+			}
+		},
+		error: function() {
+			alert("checkcart() ERROR!!!");
+		}
+	});
+}
+
+function getInfo(){
+	$.ajax({
+		url:"/projectv2/customer/php/cshowproduct.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{
+			var NumOfJData = data1.length;
+			
+			
+			var i=0;
+			for(i=0;i<NumOfJData;i++){
+				$pic='"'+data1[i].Picture+'"';
+				//$("#table1_of_items tr").remove(); 		
+				//var Table = document.getElementById("table1");
+				//Table.innerHTML = "";
+				
+				$("#table1").append('<tr id="trpicicode"><th colspan="4" rowspan="3" id="thpic">'+
+				'<img src='+$pic+' height="60" width="50"/>'+
+				'</th><th colspan="4" id="thicode"><h3>Name :'+data1[i].IName+'</h3></th></tr>'+
+				'<tr><td colspan="4" id="tritype"><p>Type : '+data1[i].IType+'</p></td></tr>'+
+				'<tr><td colspan="4" id="trremark"><p>Price : '+data1[i].Price+'</p></td></tr>'+
+				'<tr><td colspan="8" id="trbtn">'+
+				'<input type="number" id="qty'+data1[i].ICode+'" name="qty'+data1[i].ICode+'" min="1" value="1">'+
+				'<button class="btn" id="prc'+data1[i].ICode+'" data-code="'+data1[i].ICode+'" value="'+data1[i].Price+'">Add to Cart</button></td></tr>');
+				
+			}
+			const btn = document.querySelectorAll(".btn");
+			for (var i = 0; i < btn.length; i++){
+				btn[i].addEventListener("click",function (e){
+                //console.log(this.dataset.code);
+				
+				//console.log(shoppingcart);
+				var code = this.dataset.code;
+                var result = shoppingcart.find(function(val){
+                    return (val == code);
+					//alert(val);
+                })
+                if(result){
+                    //alert("shoping cart have same item");
+					var y = "qty"+code;
+					//alert(y);
+					var q = (document.getElementById(y).value);
+					if (confirm("Add "+q+" more into cart?") == true) {
+					//comfire to add into cart
+						for(var t=0;t<shoppingcart.length;t++){
+							//console.log(shoppingcart.length);
+							if(shoppingcart[t]==code){
+								var y = "qty"+code;
+								var q = document.getElementById(y).value;
+								//console.log(document.getElementById(y).value);
+								var k = "prc"+code;
+								//console.log(document.getElementById(k).value);
+								shoppingqty[t]=parseInt(shoppingqty[t])+parseInt(q);
+								//shoppingprice[t]=k;
+								//alert("<p>"+shoppingcart[t]+";"+shoppingqty[t]+";"+document.getElementById(k).value); 
+								itemadded();
+							}
+						}
+					} else {
+					//user press cancel
+						alert("cancel");
+					}
+					
+                }else{
+					//new item pressed
+					var y = "qty"+code;
+					var q = document.getElementById(y).value;
+					var k = "prc"+code;
+					var p = document.getElementById(k).value;
+					
+					shoppingcart.push(code);
+					shoppingqty.push(q);
+					shoppingprice.push(p);
+					itemadded();
+					//alert(shoppingcart[0]+shoppingqty[0]);
+					
+					alert("Added to cart! Qty = "+q);
+				}
+            });
+        }
+			
+		},	
+		
+		error: function() {
+			alert("ERROR!!!");
+
+		}
+	});
+
+}
+<!--add item into cart-->
+function itemadded(){
+	var newshoppingcart = shoppingcart.map(function(v,i) {
+		return [v, shoppingqty[i],shoppingprice[i]];
+	});
+	var cookieuniq = localStorage.uniquecookieid;
+	//console.log(JSON.stringify(valuetosend));
+	//console.log((valuetosend));
+	$.ajax({
+				url:"/projectv2/customer/php/shoppingcartedit.php",
+				type: "POST",
+				dataType: "json",
+				data: {cookieid:cookieuniq,
+				itemname:"add1",
+				newshoppingcart:newshoppingcart},
+				success: function(data1){
+					console.log(data1);
+					if(data1=="success"){
+						//success deleted
+						
+					}else{
+						//create new one?
+						
+					}
+				},
+				error: function(data1) {
+					console.log(data1);
+					alert("itemadded ajax remove failed!!!");
+				}
+			});
+}
+<!--add item into cart end-->
+<!--sidebar-->
+function accountshow(){
+	accountadit.style.display = "block";
+	passwordchange.style.display = "block";
+}
+
+function accounthid(){
+	accountadit.style.display = "none";
+	passwordchange.style.display = "none";
+}
+
+function storageshow(){
+	itemadd.style.display = "block";
+	itemsales.style.display = "block";
+}
+
+function storagehid(){
+	itemadd.style.display = "none";
+	itemsales.style.display = "none";
+}
+
+function ordershow(){
+	orderadd.style.display = "block";
+	autoapprove.style.display = "block";
+}
+
+function orderhid(){
+	orderadd.style.display = "none";
+	autoapprove.style.display = "none";
+}
+
+function employeeshow(){
+	storagemanage.style.display = "block";
+	employeemanage.style.display = "block";
+	ordermanage.style.display = "block";
+	analysismanage.style.display = "block";
+}
+
+function employeehid(){
+	storagemanage.style.display = "none";
+	employeemanage.style.display = "none";
+	ordermanage.style.display = "none";
+	analysismanage.style.display = "none";
+}
+<!--/sidebar-->
+
+
+function cartbtnpressed(){
+	//alert("btn_cart pressed");
+	if(document.getElementById('cart_btn').value=="Cart"){
+		var shoppingcart_div=document.getElementById("shoppingcart_div");
+		var dataTable=document.getElementById('dataTable');
+			dataTable.style.display = 'none';
+			dataTable.style.border = 'none';
+			shoppingcart_div.style.display = 'block';
+			shoppingcart_div.style.border = 'thin solid #000000';
+			document.getElementById('cart_btn').value="Shop";
+			
+		callcart();
+		
+	}else{
+		var shoppingcart_div=document.getElementById("shoppingcart_div");
+		var dataTable=document.getElementById('dataTable');
+		shoppingcart_div.style.display = 'none';
+		shoppingcart_div.style.border = 'none';
+		dataTable.style.display = 'block';
+		dataTable.style.border = 'thin solid #000000';
+		document.getElementById('cart_btn').value="Cart";
+	}
+}
+function callcart(){
+
+document.getElementById("shoppingcarttable").innerHTML='';
+$("#shoppingcarttable").append('<tr style="border:2px solid black;"><th style="width:5%;"><b style="font-size:110%">ID</b></th><th  style="width:30%;"><b style="font-size:110%">INAME</b></th><th style="width:15%;"><b style="font-size:110%">QTY</b></th><th colspan="2" style="width:35%;"><b style="font-size:110%">PRICE</b></th><th style="width:15%;"><b style="font-size:110%">BTN</b></th></tr>');
+			
+		if(shoppingcart[0]!=null){
+			//alert("cart_length= "+shoppingcart.length);
+			$sum= 0;
+			for(var i=0;i<shoppingcart.length;i++){
+				$tmp="'"+shoppingcart[i]+"'";
+				
+				$sum+=parseInt(shoppingprice[i]);
+				$("#shoppingcarttable").append('<tr><th style="width:"5%;">'+i+'</th>'+
+				'<th style="width:30%;text-align:right;">'+shoppingcart[i]+'</th>'+
+				'<th style="width:15%;text-align:right;">'+shoppingqty[i]+'</th>'+
+				'<td style="width:10%;"><p style="text-align:right;font-size:100%"><b>NT</b></p></td><th style="text-align:right;width:25%;">'+shoppingprice[i]+'</th>'+
+				'<th style="width:15%;"><a id="myLink" title="X" href="#" value="'+$tmp+'" onclick="cartremovebtnpressed('+$tmp+')">X</a></th></tr>');
+			}
+			$functionvalue='"clearall"';
+			$("#shoppingcarttable").append("<tr style='border:2px solid black;'><th></th><th></th><th></th>"+
+			"<th style='text-align:right;'><a id='' href='#' onclick='cartcheckout()'><p style='font-size:110%'><b>Check Out</b></p></a></th>"+
+			"<th style='text-align:right;'><p style='font-size:110%'><b>Total = "+$sum+"</b></p></th><th><a id='ahrefClear' href='#' onclick='cartremovebtnpressed("+$functionvalue+")'><p style='font-size:110%'><b>Clear</b></a></tr>");
+		}else{
+			//alert("cart_null");
+			document.getElementById("shoppingcarttable").innerHTML='';
+			$("#shoppingcarttable").append('<tr style="border:2px solid black;"><th style="width:5%;"><b style="font-size:110%">ID</b></th><th  style="width:30%;"><b style="font-size:110%">INAME</b></th><th style="width:15%;"><b style="font-size:110%">QTY</b></th><th colspan="2" style="width:35%;"><b style="font-size:110%">PRICE</b></th><th style="width:15%;"><b style="font-size:110%">BTN</b></th></tr>'+
+			'<tr><td colspan="6" style="text-align:center;"><h2>No Item in cart!!</h2></td></tr>'+
+			'<tr><td colspan="6" style="text-align:center;"><a href="#" onclick="cartbtnpressed()">Press here to return to shop</a></td></tr>');
+			
+		}
+}
+function cartremovebtnpressed(val){
+	//console.log(val);
+	if(val!="clearall"){
+		var i = shoppingcart.indexOf(val);
+		if(i != -1) {
+			shoppingcart.splice(i, 1);
+			shoppingqty.splice(i, 1);
+			shoppingprice.splice(i, 1);
+			var cookieuniq = localStorage.uniquecookieid;
+			var newshoppingcart = shoppingcart.map(function(v,i) {
+				return [v, shoppingqty[i],shoppingprice[i]];
+			});
+			$.ajax({
+				url:"/projectv2/customer/php/shoppingcartedit.php",
+				type: "POST",
+				dataType: "json",
+				data: {cookieid:cookieuniq,
+				itemname:val,
+				newshoppingcart:newshoppingcart},
+				success: function(data1){
+					console.log(data1);
+					if(data1=="success"){
+						//success deleted
+						//$("#shoppingcart_div").load(location.href + " #shoppingcart_div");
+						callcart();
+					}else{
+						//create new one?
+						console.log(data1);
+					}
+				},
+				error: function(data1) {
+					console.log(data1);
+					alert("cartremovebtnpressed ajax remove failed!!!");
+				}
+			});
+		}
+	}else{
+		//val=clearall
+		//console.log("clearall pressed");
+		var cookieuniq = localStorage.uniquecookieid;
+		$.ajax({
+				url:"/projectv2/customer/php/shoppingcartedit.php",
+				type: "POST",
+				dataType: "json",
+				data: {cookieid:cookieuniq,itemname:val},
+				success: function(data1){
+					//clear array and cookieid
+					//console.log("data1="+data1);
+					shoppingcart=[];
+					shoppingqty=[];
+					shoppingprice=[];
+					//$("#shoppingcart_div").load(location.href + " #shoppingcart_div");
+					callcart();
+					//console.log("shoppingcart="+JSON.stringify(shoppingcart));
+					//localStorage.removeItem("uniquecookieid");
+				},
+				error: function() {
+					console.log(val);
+					alert("cartremovebtnpressed ajax removeall failed!!!");
+				}
+			});
+	}
+}
+function cartcheckout(){
+	//cart checkout pressed
+}
+</script>
+
+	</head>
+	<body>
+	
+	<div id="top">
+	<form action="/projectv2/employee/php/elogoff.php" method="post">
+		 <h2 style="color:white">Welcome</h2>
+				<input type='submit' name='submit' value='Logoff' onclick="/projectv2/employee/php/elogoff.php"/>	
+	</form>	
+		<div id = "shopcartbtn_div" style="text-align:right;">
+			<input type='button' id="cart_btn" value="Cart" onclick="cartbtnpressed()"/>
+		</div>
+	</div>
+
+		<!-- Content -->
+			<div id="content">
+			
+				<div class="inner">
+					<!-- Post -->
+						<article class="box post post-excerpt">
+							<header>
+								<h2>Storage Inform</h2>
+							</header>
+						</article>
+							
+							<div id="shoppingcart_div">
+								<table id="shoppingcarttable">
+									
+								</table>
+							</div>
+							
+							<div id="dataTable">
+							<pre id="json">
+								<table id="table1">
+									
+								</table>
+							</pre>
+							</div>	
+
+				</div>
+			</div>
+	
+		<!-- Sidebar -->
+			<div id="sidebar" style="position:fixed">
+				<div id="showbox">
+				</div>
+				</body>
+				
+				<!-- Nav -->
+					<nav id="nav">
+							
+							<ul>
+								<li onmouseover="accountshow()" onmouseout="accounthid()"><a href="accountmanage.html">賬號管理</a>
+									<a id="accountadit" href="editinform.html" style="font-size: 12px; margin-left: 10px;">Edit Inform</a>
+									<a id="passwordchange" href="changepassword.html" style="font-size: 12px; margin-left: 10px;">Change Password</a>
+								</li>
+								
+								<li onmouseover="storageshow()" onmouseout="storagehid()"><a href="storageinform.html">倉庫資料</a>
+									<a id="itemadd" href="additem.html" style="font-size: 12px; margin-left: 10px;">Add Item</a>
+									<a id="itemsales" href="salesitem.html" style="font-size: 12px; margin-left: 10px;">Sales Item</a>
+								</li>						
+								
+								<li onmouseover="ordershow()" onmouseout="orderhid()"><a href="order.html">訂單</a>
+									<a id="orderadd" href="addorder.html" style="font-size: 12px; margin-left: 10px;">add order</a>
+									<a id="autoapprove" href="autoapprove.html" style="font-size: 12px; margin-left: 10px;">auto approve</a>
+								</li>
+								
+								<li onmouseover="employeeshow()" onmouseout="employeehid()"><a href="employeemanage.html">系統管理員</a>
+									<a id="storagemanage" href="adminstorage.html" style="font-size: 12px; margin-left: 10px;">Storage</a>
+									<a id="employeemanage" href="employeeconf.html" style="font-size: 12px; margin-left: 10px;">Employee</a>
+									<a id="ordermanage" href="autoapprovesetting.html" style="font-size: 12px; margin-left: 10px;">Order Setting</a>
+									<a id="analysismanage" href="analysis.html" style="font-size: 12px; margin-left: 10px;">Analysis</a>
+								</li>
+							</ul>
+					</nav>
+			</div>
+			
+		<!-- Scripts -->
+			<!--<script src="assets/js/jquery.min.js"></script> -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

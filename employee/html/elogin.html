@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<title>員工登入</title>
+<meta charset="UTF-8">
+
+<style>
+div{
+	background-color: #00CED1; 
+	height:250px; 
+	width:500px; 
+	margin:0px auto;
+	border-style: outset;
+	border-width: 3px;
+	
+}
+
+forget{
+	text-align:right;
+}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function()
+{
+	getUSerInfo();
+	function getUSerInfo(){
+	$.ajax({
+		url:"/projectv2/employee/php/showeinform.php",
+		type: "GET",
+		dataType: "json",
+		success: function(data1) 
+		{								
+		console.log(data1);
+			//$("#employee").append(""+data1[0].EName);
+			document.location.replace("/projectv2/employee/html/accountmanage.html");
+		},	
+		
+		error: function() {
+			//alert("ERROR!!!");
+			//document.location.replace("/projectv2/employee/php/elogoff.php");
+		}
+	});
+
+}
+
+	
+});
+</script>
+<body>
+
+	<div>
+<center><form action="/projectv2/employee/php/elogin.php" method="post">
+<p style="color: red; margin-top: -2%;"><span id="employee" style="color: red;"/></p>
+	<h2 >歡迎</h2>
+	<p>姓名: <input type="text" name="username" id="username" size="15" value=""/></p>
+
+	<p>密碼: <input type="password" name="password" id="password" size="15" value=""/></p>
+	
+	<input type='submit' name='submit' value='登入' />
+	<br>
+	<br>
+	
+</form></center>
+	<center><a href="" class="forget">忘記密碼？</a></center>
+  </div>
+
+</body>
+</html>

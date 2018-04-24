@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	
+<style>
+#top{
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 10000;
+    background-color:  #364050;
+    border-width: 1px;
+    border-style: solid;
+    padding: 15px;
+    font-size: 16px;
+	text-align: left;
+}
+
+
+</style>
+
+		<title>purchases car</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		
+<script>
+$(document).ready(function()
+{	
+	
+});
+
+
+</script>
+
+	</head>
+	<body>
+	
+	<div id="top">
+		<form action="/projectv2/customer/php/clogoff.php" method="post">
+		 <h2 style="color:white">Welcome</h2>
+				<input type='submit' name='submit' value='Logoff' onclick="/projectv2/customer/php/clogoff.php"/>	
+	</form>
+	</div>
+
+		<!-- Content -->
+			<div id="content">
+			
+				<div class="inner">
+					<!-- Post -->
+						<article class="box post post-excerpt">
+							<header>
+								<h2>purchases car</h2>
+							</header>
+						</article>	
+						
+						<div >
+							
+				</div>
+			</div>
+
+
+	
+		<!-- Sidebar -->
+			<div id="sidebar" style="position:fixed">
+				<div id="showbox">
+				</div>
+				</body>
+				
+				<!-- Nav -->
+					<nav id="nav">
+							
+							<ul> 
+								<li><a href="csmainpage.html">主頁</a></li>
+								<li><a href="csaccountmanage.html">賬號管理</a></li>
+								<li><a href="orderhistory.html">購物記錄</a></li>						
+								<li><a href="csshop.html">購物車</a></li>
+							</ul>
+					</nav>
+			</div>
+			
+		<!-- Scripts -->
+			<!--<script src="assets/js/jquery.min.js"></script> -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
